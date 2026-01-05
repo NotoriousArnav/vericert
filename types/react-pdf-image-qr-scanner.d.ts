@@ -1,0 +1,1 @@
+declare module 'react-pdf-image-qr-scanner';
