@@ -200,15 +200,16 @@ export default function Home() {
     <div className="w-full min-h-screen bg-black flex flex-col">
       <Vortex
         backgroundColor="black"
-        rangeY={800}
+        rangeY={600}
         particleCount={500}
         baseHue={220}
         className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full flex-1"
       >
         <Suspense fallback={<div className="text-zinc-500">Loading...</div>}>
-          <VerifyContent />
         </Suspense>
       </Vortex>
+          <VerifyContent />
+      <hr />
 
       {/* Footer with Community Links */}
       <footer className="bg-zinc-950 border-t border-zinc-800 mt-12">
