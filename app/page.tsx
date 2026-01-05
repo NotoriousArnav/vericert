@@ -271,7 +271,7 @@ export default function Home() {
             <div className="space-y-4">
               <h3 className="text-white font-bold text-lg">Bromine</h3>
               <p className="text-gray-400 text-sm">
-                Beautiful React component library for modern web applications.
+                Share and discover tech blogs from the BroCode community.
               </p>
               <a
                 href="https://bromine.vercel.app/"
@@ -279,7 +279,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="inline-block px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white text-sm font-semibold rounded-lg transition-all"
               >
-                Explore Components →
+                Read Blogs →
               </a>
             </div>
           </div>
@@ -312,58 +312,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {/* Floating Action Buttons - Bottom Right */}
-      <div className="fixed bottom-8 right-8 flex flex-col gap-3 z-40">
-        {/* GitHub Repo Button */}
-        <a
-          href="https://github.com/NotoriousArnav/vericert.git"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative"
-        >
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-12 w-12 rounded-full border-zinc-700 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300"
-            title="View GitHub Repository"
-          >
-            <Github className="h-5 w-5" />
-          </Button>
-          <div className="absolute right-16 bottom-3 bg-zinc-800 text-zinc-100 text-xs px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
-            GitHub Repository
-          </div>
-        </a>
-
-        {/* BroCode Community Button */}
-        <a
-          href="https://brocode-tech.netlify.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative"
-        >
-          <Button
-            size="sm"
-            className="rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-3 h-12 font-semibold flex items-center gap-2"
-            style={{
-              background: "linear-gradient(135deg, #DE9F68 0%, #EEB086 100%)",
-            }}
-            title="Visit BroCode Tech Community"
-          >
-            <Image
-              src="/brocode-logo.jpg"
-              alt="BroCode Logo"
-              width={24}
-              height={24}
-              className="rounded-full object-cover"
-            />
-            BroCode Tech
-          </Button>
-          <div className="absolute right-0 bottom-16 bg-zinc-800 text-zinc-100 text-xs px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
-            Visit BroCode Tech Community
-          </div>
-        </a>
-      </div>
     </div>
   );
 }

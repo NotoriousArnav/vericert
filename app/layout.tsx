@@ -190,9 +190,9 @@ export default function RootLayout({
                     href="https://bromine.vercel.app/"
                     className="bg-gradient-to-br from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 rounded-lg p-6 text-white font-semibold transition-colors block"
                   >
-                    <div className="text-3xl mb-2">⚛️</div>
+                    <div className="text-3xl mb-2">📝</div>
                     <div>Bromine</div>
-                    <div className="text-xs font-normal text-gray-100 mt-2">React Components</div>
+                    <div className="text-xs font-normal text-gray-100 mt-2">Community Blogs</div>
                   </a>
                 </div>
 
