@@ -96,9 +96,9 @@ export function PDFUploader() {
       </div>
 
       <Card 
-        className={`border-2 border-dashed transition-colors duration-200 bg-card/50 backdrop-blur-sm ${
+        className={`border-2 border-solid transition-colors duration-200 bg-card/50 backdrop-blur-sm ${
           isDragOver 
-            ? "border-primary bg-primary/10" 
+            ? "border-white bg-primary/10" 
             : "border-muted-foreground/25 hover:border-primary/50"
         }`}
         onDragOver={handleDragOver}
@@ -114,11 +114,11 @@ export function PDFUploader() {
             )}
           </div>
           
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold tracking-tight">
+          <div className="space-y-2 text-white">
+            <h3 className="text-xl font-semibold tracking-tight text-white">
               {isScanning ? "Scanning Certificate..." : "Upload Certificate"}
             </h3>
-            <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+            <p className="text-sm text-zinc-300 max-w-xs mx-auto">
               Drag and drop your PDF certificate here, or click to browse.
             </p>
           </div>
@@ -135,7 +135,7 @@ export function PDFUploader() {
             <label htmlFor="pdf-upload">
               <Button 
                 variant="outline" 
-                className="cursor-pointer border-primary/20 hover:bg-primary/10 hover:text-primary"
+                className="cursor-pointer border-zinc-700 bg-black/50 text-white hover:bg-white hover:text-gray-200 transition-colors"
                 disabled={isScanning}
                 asChild
               >

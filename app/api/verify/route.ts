@@ -4,7 +4,7 @@ import { verifyCertificateToken } from "@/lib/jwt";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { token } = body;
+    const { token, publicKey } = body;
 
     if (!token) {
       return NextResponse.json(
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const result = await verifyCertificateToken(token);
+    const result = await verifyCertificateToken(token, publicKey);
 
     if (result.valid) {
       return NextResponse.json(result);

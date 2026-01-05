@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Removed @plugin "tailwindcss-animate" as it conflicts with Tailwind v4 */
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -65,89 +63,48 @@
 }
 
 :root {
-  /* BroCode Palette (Light Mode defaults, though we lean Dark) */
-  --background: #F9F9F0; /* Floral White */
-  --foreground: #361E19; /* Dark Coffee */
-
-  --card: #FFFFFF;
-  --card-foreground: #361E19;
-
-  --popover: #FFFFFF;
-  --popover-foreground: #361E19;
-
-  --primary: #DE9F68; /* Light Bronze */
-  --primary-foreground: #361E19;
-
-  --secondary: #EEB086; /* Sandy Clay */
-  --secondary-foreground: #361E19;
-
-  --muted: #F1F5F9;
-  --muted-foreground: #64748B;
-
-  --accent: #EEB086;
-  --accent-foreground: #361E19;
-
-  --destructive: #EF4444;
-  --destructive-foreground: #FAFAFA;
-
-  --border: #E2E8F0;
-  --input: #E2E8F0;
-  --ring: #DE9F68;
-
-  --chart-1: #DE9F68;
-  --chart-2: #EEB086;
-  --chart-3: #361E19;
-  --chart-4: #362A2A;
-  --chart-5: #F9F9F0;
-
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
   --radius: 0.5rem;
-  --sidebar: #f8f9fa;
-  --sidebar-foreground: #3b4252;
-  --sidebar-primary: #3b4252;
-  --sidebar-primary-foreground: #f8f9fa;
-  --sidebar-accent: #f2f4f8;
-  --sidebar-accent-foreground: #3b4252;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #cbd5e1;
 }
 
 .dark {
-  /* BroCode Palette (Dark Mode - Primary) */
-  --background: #361E19; /* Dark Coffee */
-  --foreground: #F9F9F0; /* Floral White */
-
-  --card: #362A2A; /* Deep Mocha */
-  --card-foreground: #F9F9F0;
-
-  --popover: #362A2A;
-  --popover-foreground: #F9F9F0;
-
-  --primary: #DE9F68; /* Light Bronze */
-  --primary-foreground: #361E19;
-
-  --secondary: #EEB086; /* Sandy Clay */
-  --secondary-foreground: #361E19;
-
-  --muted: #362A2A;
-  --muted-foreground: #94A3B8;
-
-  --accent: #362A2A;
-  --accent-foreground: #F9F9F0;
-
-  --destructive: #7F1D1D;
-  --destructive-foreground: #F9F9F0;
-
-  --border: #4A4040;
-  --input: #4A4040;
-  --ring: #DE9F68;
-  --sidebar: #18181b;
-  --sidebar-foreground: #f4f4f5;
-  --sidebar-primary: #3b82f6;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #27272a;
-  --sidebar-accent-foreground: #f4f4f5;
-  --sidebar-border: #27272a;
-  --sidebar-ring: #3b82f6;
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
 }
 
 @layer base {

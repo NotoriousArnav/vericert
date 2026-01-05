@@ -10,17 +10,18 @@ export interface VerificationResult {
 }
 
 /**
- * Verifies a JWT token using the stored Public Key (RS256).
+ * Verifies a JWT token using the stored Public Key (RS256) or a provided custom key.
  * This runs ONLY on the server side.
  */
 export async function verifyCertificateToken(
-  token: string
+  token: string,
+  customPublicKey?: string
 ): Promise<VerificationResult> {
   try {
-    const publicKeyPem = process.env.JWT_PUBLIC_KEY;
+    const publicKeyPem = customPublicKey || process.env.JWT_PUBLIC_KEY;
 
     if (!publicKeyPem) {
-      console.error("Missing JWT_PUBLIC_KEY environment variable");
+      console.error("Missing JWT_PUBLIC_KEY environment variable and no custom key provided");
       return {
         valid: false,
         error: "Server configuration error: Public key not found.",
