@@ -288,14 +288,16 @@ export default function Home() {
           <div className="border-t border-zinc-800 mt-8 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-gray-400 text-sm text-center md:text-left">
-                © 2026 BroCode Tech Community. All rights reserved.
+                Made with ❤️ by BroCode Tech Community • MIT Licensed • Open Source
               </p>
               <div className="flex gap-6 text-sm">
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Privacy Policy
-                </a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Terms of Service
+                <a
+                  href="https://github.com/NotoriousArnav/vericert.git"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  License (MIT)
                 </a>
                 <a
                   href="https://github.com/NotoriousArnav/vericert.git"
