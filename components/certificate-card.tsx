@@ -40,12 +40,61 @@ export function CertificateCard({ data }: CertificateCardProps) {
      if (!cardRef.current) return;
      setIsDownloading(true);
      try {
-       const canvas = await html2canvas(cardRef.current, {
+       // Create a simplified version for export
+       const exportCard = document.createElement('div');
+       exportCard.style.width = '800px';
+       exportCard.style.padding = '40px';
+       exportCard.style.backgroundColor = '#000000';
+       exportCard.style.color = '#ffffff';
+       exportCard.style.fontFamily = 'Arial, sans-serif';
+       exportCard.style.position = 'fixed';
+       exportCard.style.left = '-9999px';
+       exportCard.style.top = '0';
+       exportCard.style.border = '1px solid #333333';
+       
+       exportCard.innerHTML = `
+         <div style="text-align: center; padding: 20px 0;">
+           <div style="font-size: 32px; font-weight: bold; margin-bottom: 30px; background: linear-gradient(to bottom, #ffffff, #a1a1a1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+             ${courseName}
+           </div>
+           <div style="text-align: center; padding: 20px; border-top: 1px solid #333; border-bottom: 1px solid #333; margin-bottom: 30px;">
+             <div style="font-size: 12px; color: #888888; margin-bottom: 10px;">Presented To</div>
+             <div style="font-size: 28px; font-weight: bold;">${recipientName}</div>
+           </div>
+           
+           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+             <div style="padding: 20px; background: #1a1a1a; border-radius: 8px;">
+               <div style="font-size: 10px; color: #888888; text-transform: uppercase; margin-bottom: 8px;">Issuer</div>
+               <div style="font-size: 16px; font-weight: bold;">${issuer}</div>
+             </div>
+             <div style="padding: 20px; background: #1a1a1a; border-radius: 8px;">
+               <div style="font-size: 10px; color: #888888; text-transform: uppercase; margin-bottom: 8px;">Issued Date</div>
+               <div style="font-size: 16px; font-weight: bold;">${issueDate}</div>
+             </div>
+           </div>
+           
+           <div style="padding: 20px; background: #0a0a0a; border: 1px solid #333; border-radius: 8px; font-family: monospace; font-size: 11px; text-align: left; margin-bottom: 20px;">
+             <div style="color: #888;">Certificate ID: ${certId}</div>
+             <div style="color: #888;">Status: ✓ Verified</div>
+           </div>
+           
+           <div style="font-size: 10px; color: #666666; margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;">
+             This certificate has been cryptographically verified and is authentic.
+           </div>
+         </div>
+       `;
+       
+       document.body.appendChild(exportCard);
+       
+       const canvas = await html2canvas(exportCard, {
          backgroundColor: '#000000',
          scale: 2,
          allowTaint: true,
          useCORS: true,
        });
+       
+       document.body.removeChild(exportCard);
+       
        const imgData = canvas.toDataURL('image/png');
        const pdf = new jsPDF({
          orientation: 'portrait',
@@ -65,30 +114,79 @@ export function CertificateCard({ data }: CertificateCardProps) {
      }
    };
 
-    const downloadAsPNG = async () => {
-      if (!cardRef.current) return;
-      setIsDownloading(true);
-      try {
-        const canvas = await html2canvas(cardRef.current, {
-          backgroundColor: '#000000',
-          scale: 2,
-          allowTaint: true,
-          useCORS: true,
-        });
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = `${recipientName}-certificate.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } catch (err) {
-        console.error('PNG download error:', err);
-        alert(`Failed to download PNG: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      } finally {
-        setIsDownloading(false);
-        setShowDropdown(false);
-      }
-    };
+     const downloadAsPNG = async () => {
+       if (!cardRef.current) return;
+       setIsDownloading(true);
+       try {
+         // Create a simplified version for export
+         const exportCard = document.createElement('div');
+         exportCard.style.width = '800px';
+         exportCard.style.padding = '40px';
+         exportCard.style.backgroundColor = '#000000';
+         exportCard.style.color = '#ffffff';
+         exportCard.style.fontFamily = 'Arial, sans-serif';
+         exportCard.style.position = 'fixed';
+         exportCard.style.left = '-9999px';
+         exportCard.style.top = '0';
+         exportCard.style.border = '1px solid #333333';
+         
+         exportCard.innerHTML = `
+           <div style="text-align: center; padding: 20px 0;">
+             <div style="font-size: 32px; font-weight: bold; margin-bottom: 30px; background: linear-gradient(to bottom, #ffffff, #a1a1a1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+               ${courseName}
+             </div>
+             <div style="text-align: center; padding: 20px; border-top: 1px solid #333; border-bottom: 1px solid #333; margin-bottom: 30px;">
+               <div style="font-size: 12px; color: #888888; margin-bottom: 10px;">Presented To</div>
+               <div style="font-size: 28px; font-weight: bold;">${recipientName}</div>
+             </div>
+             
+             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+               <div style="padding: 20px; background: #1a1a1a; border-radius: 8px;">
+                 <div style="font-size: 10px; color: #888888; text-transform: uppercase; margin-bottom: 8px;">Issuer</div>
+                 <div style="font-size: 16px; font-weight: bold;">${issuer}</div>
+               </div>
+               <div style="padding: 20px; background: #1a1a1a; border-radius: 8px;">
+                 <div style="font-size: 10px; color: #888888; text-transform: uppercase; margin-bottom: 8px;">Issued Date</div>
+                 <div style="font-size: 16px; font-weight: bold;">${issueDate}</div>
+               </div>
+             </div>
+             
+             <div style="padding: 20px; background: #0a0a0a; border: 1px solid #333; border-radius: 8px; font-family: monospace; font-size: 11px; text-align: left; margin-bottom: 20px;">
+               <div style="color: #888;">Certificate ID: ${certId}</div>
+               <div style="color: #888;">Status: ✓ Verified</div>
+             </div>
+             
+             <div style="font-size: 10px; color: #666666; margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;">
+               This certificate has been cryptographically verified and is authentic.
+             </div>
+           </div>
+         `;
+         
+         document.body.appendChild(exportCard);
+         
+         const canvas = await html2canvas(exportCard, {
+           backgroundColor: '#000000',
+           scale: 2,
+           allowTaint: true,
+           useCORS: true,
+         });
+         
+         document.body.removeChild(exportCard);
+         
+         const link = document.createElement('a');
+         link.href = canvas.toDataURL('image/png');
+         link.download = `${recipientName}-certificate.png`;
+         document.body.appendChild(link);
+         link.click();
+         document.body.removeChild(link);
+       } catch (err) {
+         console.error('PNG download error:', err);
+         alert(`Failed to download PNG: ${err instanceof Error ? err.message : 'Unknown error'}`);
+       } finally {
+         setIsDownloading(false);
+         setShowDropdown(false);
+       }
+     };
 
   return (
     <motion.div
