@@ -36,51 +36,92 @@ export function CertificateCard({ data }: CertificateCardProps) {
     !['name', 'recipient', 'course', 'event', 'title', 'issuer', 'issuedAt', 'iat', 'certId', 'id'].includes(key)
   );
 
-  const downloadAsPDF = async () => {
-    if (!cardRef.current) return;
-    setIsDownloading(true);
-    try {
-      const canvas = await html2canvas(cardRef.current, {
-        backgroundColor: "#000000",
-        scale: 2,
-      });
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4",
-      });
-      const imgWidth = 210;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save(`${recipientName}-certificate.pdf`);
-    } catch (err) {
-      console.error("PDF download error:", err);
-    } finally {
-      setIsDownloading(false);
-      setShowDropdown(false);
-    }
-  };
+   const downloadAsPDF = async () => {
+     setIsDownloading(true);
+     try {
+       // Get the card element
+       const card = document.querySelector('[data-certificate-card]') as HTMLElement;
+       if (!card) {
+         throw new Error('Certificate card not found');
+       }
 
-  const downloadAsPNG = async () => {
-    if (!cardRef.current) return;
-    setIsDownloading(true);
-    try {
-      const canvas = await html2canvas(cardRef.current, {
-        backgroundColor: "#000000",
-        scale: 2,
-      });
-      const link = document.createElement("a");
-      link.href = canvas.toDataURL("image/png");
-      link.download = `${recipientName}-certificate.png`;
-      link.click();
-    } catch (err) {
-      console.error("PNG download error:", err);
-    } finally {
-      setIsDownloading(false);
-      setShowDropdown(false);
-    }
-  };
+       // Clone the card for export (to avoid affecting the visible card)
+       const clonedCard = card.cloneNode(true) as HTMLElement;
+       clonedCard.style.position = 'absolute';
+       clonedCard.style.left = '-9999px';
+       clonedCard.style.top = '0';
+       clonedCard.style.width = card.offsetWidth + 'px';
+       document.body.appendChild(clonedCard);
+
+       const canvas = await html2canvas(clonedCard, {
+         backgroundColor: '#000000',
+         scale: 2,
+         allowTaint: true,
+         useCORS: true,
+       });
+
+       document.body.removeChild(clonedCard);
+
+       const imgData = canvas.toDataURL('image/png');
+       const pdf = new jsPDF({
+         orientation: 'portrait',
+         unit: 'mm',
+         format: 'a4',
+       });
+       
+       const imgWidth = 210;
+       const imgHeight = (canvas.height * imgWidth) / canvas.width;
+       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+       pdf.save(`${recipientName}-certificate.pdf`);
+     } catch (err) {
+       console.error('PDF download error:', err);
+       alert(`Failed to download PDF: ${err instanceof Error ? err.message : 'Unknown error'}`);
+     } finally {
+       setIsDownloading(false);
+       setShowDropdown(false);
+     }
+   };
+
+    const downloadAsPNG = async () => {
+      setIsDownloading(true);
+      try {
+        // Get the card element
+        const card = document.querySelector('[data-certificate-card]') as HTMLElement;
+        if (!card) {
+          throw new Error('Certificate card not found');
+        }
+
+        // Clone the card for export (to avoid affecting the visible card)
+        const clonedCard = card.cloneNode(true) as HTMLElement;
+        clonedCard.style.position = 'absolute';
+        clonedCard.style.left = '-9999px';
+        clonedCard.style.top = '0';
+        clonedCard.style.width = card.offsetWidth + 'px';
+        document.body.appendChild(clonedCard);
+
+        const canvas = await html2canvas(clonedCard, {
+          backgroundColor: '#000000',
+          scale: 2,
+          allowTaint: true,
+          useCORS: true,
+        });
+
+        document.body.removeChild(clonedCard);
+
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = `${recipientName}-certificate.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (err) {
+        console.error('PNG download error:', err);
+        alert(`Failed to download PNG: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      } finally {
+        setIsDownloading(false);
+        setShowDropdown(false);
+      }
+    };
 
   return (
     <motion.div
@@ -131,7 +172,7 @@ export function CertificateCard({ data }: CertificateCardProps) {
         </div>
       </div>
 
-      <Card ref={cardRef} className="w-full bg-zinc-950 text-zinc-100 border-zinc-800 shadow-2xl overflow-hidden relative backdrop-blur-xl bg-opacity-90">
+       <Card ref={cardRef} data-certificate-card className="w-full bg-zinc-950 text-zinc-100 border-zinc-800 shadow-2xl overflow-hidden relative backdrop-blur-xl bg-opacity-90">
         {/* Decorative holographic gradient top border */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 animate-gradient-x" />
         
