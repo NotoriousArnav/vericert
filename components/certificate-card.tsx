@@ -37,38 +37,21 @@ export function CertificateCard({ data }: CertificateCardProps) {
   );
 
    const downloadAsPDF = async () => {
+     if (!cardRef.current) return;
      setIsDownloading(true);
      try {
-       // Get the card element
-       const card = document.querySelector('[data-certificate-card]') as HTMLElement;
-       if (!card) {
-         throw new Error('Certificate card not found');
-       }
-
-       // Clone the card for export (to avoid affecting the visible card)
-       const clonedCard = card.cloneNode(true) as HTMLElement;
-       clonedCard.style.position = 'absolute';
-       clonedCard.style.left = '-9999px';
-       clonedCard.style.top = '0';
-       clonedCard.style.width = card.offsetWidth + 'px';
-       document.body.appendChild(clonedCard);
-
-       const canvas = await html2canvas(clonedCard, {
+       const canvas = await html2canvas(cardRef.current, {
          backgroundColor: '#000000',
          scale: 2,
          allowTaint: true,
          useCORS: true,
        });
-
-       document.body.removeChild(clonedCard);
-
        const imgData = canvas.toDataURL('image/png');
        const pdf = new jsPDF({
          orientation: 'portrait',
          unit: 'mm',
          format: 'a4',
        });
-       
        const imgWidth = 210;
        const imgHeight = (canvas.height * imgWidth) / canvas.width;
        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
@@ -83,31 +66,15 @@ export function CertificateCard({ data }: CertificateCardProps) {
    };
 
     const downloadAsPNG = async () => {
+      if (!cardRef.current) return;
       setIsDownloading(true);
       try {
-        // Get the card element
-        const card = document.querySelector('[data-certificate-card]') as HTMLElement;
-        if (!card) {
-          throw new Error('Certificate card not found');
-        }
-
-        // Clone the card for export (to avoid affecting the visible card)
-        const clonedCard = card.cloneNode(true) as HTMLElement;
-        clonedCard.style.position = 'absolute';
-        clonedCard.style.left = '-9999px';
-        clonedCard.style.top = '0';
-        clonedCard.style.width = card.offsetWidth + 'px';
-        document.body.appendChild(clonedCard);
-
-        const canvas = await html2canvas(clonedCard, {
+        const canvas = await html2canvas(cardRef.current, {
           backgroundColor: '#000000',
           scale: 2,
           allowTaint: true,
           useCORS: true,
         });
-
-        document.body.removeChild(clonedCard);
-
         const link = document.createElement('a');
         link.href = canvas.toDataURL('image/png');
         link.download = `${recipientName}-certificate.png`;
