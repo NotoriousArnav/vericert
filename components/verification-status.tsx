@@ -12,7 +12,7 @@ interface VerificationStatusProps {
 export function VerificationStatus({ valid, error, className }: VerificationStatusProps) {
   if (valid) {
     return (
-      <div className={`flex flex-col items-center justify-center p-6 space-y-2 ${className}`}>
+      <div className={`flex flex-col items-center justify-center p-6 space-y-2 w-full ${className}`}>
         <div className="p-3 rounded-full bg-green-500/10 text-green-500 mb-2 ring-1 ring-green-500/20">
           <CheckCircle2 className="w-12 h-12" />
         </div>
@@ -26,7 +26,7 @@ export function VerificationStatus({ valid, error, className }: VerificationStat
 
   // Error / Invalid State
   return (
-    <div className={`flex flex-col items-center justify-center p-6 space-y-2 ${className}`}>
+    <div className={`flex flex-col items-center justify-center p-6 space-y-2 w-full ${className}`}>
       <div className="p-3 rounded-full bg-red-500/10 text-red-500 mb-2 ring-1 ring-red-500/20">
         <XCircle className="w-12 h-12" />
       </div>
