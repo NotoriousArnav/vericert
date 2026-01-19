@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Award, Building, Fingerprint, User, ShieldCheck, Download, FileText, Image as ImageIcon } from "lucide-react";
+import { Calendar, Award, Building, Fingerprint, User, ShieldCheck, Download, FileText, Image as ImageIcon, Plus, Minus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -16,6 +16,7 @@ interface CertificateCardProps {
 export function CertificateCard({ data }: CertificateCardProps) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [expandedFields, setExpandedFields] = useState<Set<string>>(new Set());
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Extract common fields if they exist, otherwise fallback
@@ -35,6 +36,16 @@ export function CertificateCard({ data }: CertificateCardProps) {
   const techDetails = Object.entries(data).filter(([key]) => 
     !['name', 'recipient', 'course', 'event', 'title', 'issuer', 'issuedAt', 'iat', 'certId', 'id'].includes(key)
   );
+
+  const toggleFieldExpanded = (fieldName: string) => {
+    const newExpanded = new Set(expandedFields);
+    if (newExpanded.has(fieldName)) {
+      newExpanded.delete(fieldName);
+    } else {
+      newExpanded.add(fieldName);
+    }
+    setExpandedFields(newExpanded);
+  };
 
    const downloadAsPDF = async () => {
      if (!cardRef.current) return;
@@ -312,16 +323,16 @@ export function CertificateCard({ data }: CertificateCardProps) {
               <div className="space-y-1.5">
                 <div className="text-zinc-600">{"{"}</div>
                 
-                 {/* Standard Fields */}
-                 <JsonLine keyName="certId" value={certId} color="text-yellow-400" />
-                 <JsonLine keyName="recipient" value={recipientName} color="text-green-400" />
-                 <JsonLine keyName="event" value={courseName} color="text-blue-400" />
-                 <JsonLine keyName="issuer" value={issuer} color="text-purple-400" />
-                 <JsonLine keyName="iat" value={data.iat} color="text-orange-400" />
+                  {/* Standard Fields */}
+                  <JsonLine keyName="certId" value={certId} color="text-yellow-400" isExpanded={expandedFields.has("certId")} onToggle={() => toggleFieldExpanded("certId")} />
+                  <JsonLine keyName="recipient" value={recipientName} color="text-green-400" isExpanded={expandedFields.has("recipient")} onToggle={() => toggleFieldExpanded("recipient")} />
+                  <JsonLine keyName="event" value={courseName} color="text-blue-400" isExpanded={expandedFields.has("event")} onToggle={() => toggleFieldExpanded("event")} />
+                  <JsonLine keyName="issuer" value={issuer} color="text-purple-400" isExpanded={expandedFields.has("issuer")} onToggle={() => toggleFieldExpanded("issuer")} />
+                  <JsonLine keyName="iat" value={data.iat} color="text-orange-400" isExpanded={expandedFields.has("iat")} onToggle={() => toggleFieldExpanded("iat")} />
 
                 {/* Dynamic Extra Fields */}
                 {techDetails.map(([key, value]) => (
-                  <JsonLine key={key} keyName={key} value={value} color="text-cyan-400" />
+                  <JsonLine key={key} keyName={key} value={value} color="text-cyan-400" isExpanded={expandedFields.has(key)} onToggle={() => toggleFieldExpanded(key)} />
                 ))}
 
                 <div className="text-zinc-600">{"}"}</div>
@@ -347,20 +358,53 @@ export function CertificateCard({ data }: CertificateCardProps) {
 }
 
 // Interactive JSON Line Component
-function JsonLine({ keyName, value, color }: { keyName: string, value: any, color: string }) {
+function JsonLine({ 
+  keyName, 
+  value, 
+  color,
+  isExpanded,
+  onToggle 
+}: { 
+  keyName: string
+  value: any
+  color: string
+  isExpanded: boolean
+  onToggle: () => void
+}) {
+  const stringValue = typeof value === 'string' ? value : String(value);
+  const displayValue = typeof value === 'string' ? `"${stringValue}"` : stringValue;
+  
   return (
-    <div className="pl-4 group/line flex hover:bg-zinc-800/50 rounded px-2 -ml-2 transition-colors cursor-default relative">
-      <span className="text-pink-400">"{keyName}"</span>
-      <span className="text-zinc-500 mr-2">:</span>
-      <span className={`${color} truncate max-w-[200px] md:max-w-[400px]`}>
-        {typeof value === 'string' ? `"${value}"` : String(value)}
-      </span>
-      <span className="text-zinc-600">,</span>
+    <div className="pl-4 group/line flex flex-col hover:bg-zinc-800/50 rounded px-2 -ml-2 transition-colors cursor-default relative">
+      <div className="flex items-start gap-2">
+        <button
+          onClick={onToggle}
+          className="mt-0.5 p-0.5 hover:bg-zinc-700 rounded transition-colors flex-shrink-0"
+          title="Expand/Collapse"
+        >
+          {isExpanded ? (
+            <Minus className="w-3 h-3 text-zinc-400" />
+          ) : (
+            <Plus className="w-3 h-3 text-zinc-400" />
+          )}
+        </button>
+        
+        <div className="flex items-start gap-1 flex-1 min-w-0">
+          <span className="text-pink-400">"{keyName}"</span>
+          <span className="text-zinc-500 mr-1">:</span>
+          <span className={`${color} ${isExpanded ? 'break-words whitespace-normal' : 'truncate max-w-[200px] md:max-w-[400px]'}`}>
+            {displayValue}
+          </span>
+          <span className="text-zinc-600 ml-1">,</span>
+        </div>
+      </div>
       
       {/* Tooltip on Hover */}
-      <div className="absolute left-full ml-2 top-0 bg-zinc-800 text-zinc-300 text-[10px] px-2 py-1 rounded border border-zinc-700 opacity-0 group-hover/line:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
-        {typeof value}
-      </div>
+      {!isExpanded && (
+        <div className="absolute left-full ml-2 top-0 bg-zinc-800 text-zinc-300 text-[10px] px-2 py-1 rounded border border-zinc-700 opacity-0 group-hover/line:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
+          {typeof value}
+        </div>
+      )}
     </div>
   );
 }
