@@ -206,7 +206,9 @@ export default function Home() {
         className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full flex-1"
         containerClassName="flex-1"
       >
-        <VerifyContent />
+        <Suspense fallback={<div className="text-zinc-500">Loading...</div>}>
+          <VerifyContent />
+        </Suspense>
       </Vortex>
       <hr />
 
