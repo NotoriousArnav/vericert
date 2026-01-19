@@ -104,7 +104,7 @@ function VerifyContent() {
   // 2. Result State
   if (result) {
     return (
-      <div className="flex flex-col items-center space-y-6 w-full max-w-4xl px-4 animate-in slide-in-from-bottom-10 duration-700 pb-10 md:pb-0">
+      <div className="flex flex-col items-center space-y-6 w-full max-w-4xl px-4 mx-auto animate-in slide-in-from-bottom-10 duration-700 pb-10 md:pb-0">
         <VerificationStatus valid={result.valid} error={result.error} />
         
         {result.valid && result.payload && (
@@ -198,18 +198,16 @@ function VerifyContent() {
 export default function Home() {
   return (
     <div className="w-full min-h-screen bg-black flex flex-col">
-       <Vortex
-         backgroundColor="black"
-         rangeY={600}
-         particleCount={300}
-         baseHue={220}
-         className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full flex-1"
-       >
-         <Suspense fallback={<div className="text-zinc-500">Loading...</div>}>
-            <div>&nbsp;</div>
-         </Suspense>
-       </Vortex>
-      <VerifyContent />
+      <Vortex
+        backgroundColor="black"
+        rangeY={600}
+        particleCount={300}
+        baseHue={220}
+        className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full flex-1"
+        containerClassName="flex-1"
+      >
+        <VerifyContent />
+      </Vortex>
       <hr />
 
       {/* Footer with Community Links */}
